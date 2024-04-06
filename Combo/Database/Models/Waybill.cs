@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Combo.Database.Models;
 
@@ -13,7 +14,9 @@ public class Waybill
 	public required DateOnly ArrivalDate { get; set; }
 	public required DateOnly DeliveryDate { get; set; }
 
+	[Column(TypeName = "jsonb")]
 	public required Cargo DeclaredCargo { get; set; }
+	[Column(TypeName = "jsonb")]
 	public required Cargo ActualCargo { get; set; }
 }
 

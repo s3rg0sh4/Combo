@@ -3,8 +3,6 @@
 using Combo.Database;
 using Combo.Database.Models;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace Combo.Features.Waybills;
 
 public class Routes : ICarterModule
@@ -13,6 +11,5 @@ public class Routes : ICarterModule
 	{
 		app.MapPost("/waybill", async (Waybill waybill, ComboContext _context)
 			=> await _context.AddImmidiately(waybill));
-		//=> _service.AddWaybill(waybill));
 	}
 }
