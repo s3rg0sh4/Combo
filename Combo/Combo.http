@@ -1,0 +1,11 @@
+@Combo_HostAddress = http://localhost:5113
+
+GET {{Combo_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{Combo_HostAddress}}/todos/1
+Accept: application/json
+
+###
