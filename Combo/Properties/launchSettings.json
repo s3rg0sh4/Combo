@@ -2,13 +2,13 @@
   "profiles": {
     "http": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "todos",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5113"
+      "applicationUrl": "http://localhost:5113",
+      "hotReloadEnabled": true
     },
     "Docker": {
       "commandName": "Docker",
