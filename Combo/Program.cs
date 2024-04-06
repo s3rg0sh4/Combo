@@ -14,10 +14,15 @@ builder.Services.AddDbContext<Combo.Database.ComboContext>();
 
 //builder.Services.AddScoped<Combo.Features.Waybills.WaybillService>();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers();
 var app = builder.Build();
 
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapCarter();
+app.MapControllers();
 app.Run();
