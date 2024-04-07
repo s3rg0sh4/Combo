@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Combo.Migrations
 {
     [DbContext(typeof(ComboContext))]
-    [Migration("20240406194230_Test")]
-    partial class Test
+    [Migration("20240407040150_Waybills")]
+    partial class Waybills
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
