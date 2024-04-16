@@ -1,6 +1,6 @@
 ﻿namespace Combo.Database.Models;
 
-public class Cargo
+public abstract class Cargo
 {
 	public Guid Id { get; set; }
 	public int PalleteCount { get; set; }

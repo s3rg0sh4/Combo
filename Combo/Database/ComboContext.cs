@@ -6,12 +6,25 @@ namespace Combo.Database;
 
 public class ComboContext(DbContextOptions<ComboContext> options) : DbContext(options)
 {
+	public DbSet<Order> Orders { get; set; }
     public DbSet<Waybill> Waybill { get; set; }
 
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		modelBuilder.Entity<Cargo>().UseTptMappingStrategy();
 
-    public async Task AddImmidiately<T>(T item) where T : class
+		base.OnModelCreating(modelBuilder);
+	}
+
+	internal async Task AddImmidiately<T>(T item) where T : class
     {
         Add(item);
         await SaveChangesAsync();
     }
+
+	internal async Task UpdateImmidiately(Waybill waybill)
+	{
+        Update(waybill);
+        await SaveChangesAsync();
+	}
 }
