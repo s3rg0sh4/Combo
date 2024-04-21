@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Combo.Database.Models;
 
@@ -22,7 +23,6 @@ public class Waybill
 	public required DeclaredCargo DeclaredCargo { get; set; }
 	public required ActualCargo ActualCargo { get; set; }
 
-	public required DateTimeOffset ArrivalDate { get; set; }
 	public required Destiantion Destination { get; init; }
 
 	public required WaybillStatus Status { get; set; }
@@ -64,5 +64,18 @@ public static class DbSetExtensions
 			.Include(w => w.DeclaredCargo)
 			.Include(w => w.Destination)
 			.Include(w => w.Commentaries);
+	}
+
+	public static IQueryable<Order> IncludeWaybillsFull(this DbSet<Order> orders)
+	{
+		return orders
+			.Include(o => o.Waybills)
+				.ThenInclude(w => w.ActualCargo)
+			.Include(o => o.Waybills)
+				.ThenInclude(w => w.DeclaredCargo)
+			.Include(o => o.Waybills)
+				.ThenInclude(w => w.Destination)
+			.Include(o => o.Waybills)	
+				.ThenInclude(w => w.Commentaries);
 	}
 }

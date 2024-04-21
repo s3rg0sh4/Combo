@@ -22,7 +22,7 @@ public class ComboContext(DbContextOptions<ComboContext> options) : DbContext(op
         await SaveChangesAsync();
     }
 
-	internal async Task UpdateImmidiately(Waybill waybill)
+	internal async Task UpdateImmidiately<T>(T waybill) where T : class
 	{
         Update(waybill);
         await SaveChangesAsync();

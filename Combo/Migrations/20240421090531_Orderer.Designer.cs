@@ -3,6 +3,7 @@ using System;
 using Combo.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Combo.Migrations
 {
     [DbContext(typeof(ComboContext))]
-    partial class ComboContextModelSnapshot : ModelSnapshot
+    [Migration("20240421090531_Orderer")]
+    partial class Orderer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,9 +100,6 @@ namespace Combo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("ArrivalDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -120,6 +120,9 @@ namespace Combo.Migrations
 
                     b.Property<Guid>("ActualCargoId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("ArrivalDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("timestamp with time zone");

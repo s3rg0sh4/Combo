@@ -20,11 +20,7 @@ public class WaybillService(ComboContext _context)
 		waybill.Id = Guid.Empty;
 		waybill.CreationDate = DateTime.UtcNow;
 
-		await _context.AddImmidiately(new Order
-		{
-			CreationDate = DateTimeOffset.UtcNow,
-			Waybills = [waybill]
-		});
+		await _context.AddImmidiately(waybill);
 	}
 
 	public async Task UpdateWaybill(Waybill waybill)
