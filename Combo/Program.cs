@@ -13,6 +13,7 @@ builder.Services.AddDbContext<Combo.Database.ComboContext>(db
 
 builder.Services.AddScoped<Combo.Features.Waybills.WaybillService>();
 builder.Services.AddScoped<Combo.Features.Orders.OrderService>();
+builder.Services.AddScoped<Combo.Features.Transport.TransportService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
