@@ -3,9 +3,9 @@
 namespace Combo.Database.Models;
 
 /// <summary>
-/// Сведения о грузовике
+/// Сведения о прицепе
 /// </summary>
-public class Transport
+public class Trailer
 {
 	public Guid Id { get; set; }
 
@@ -13,10 +13,10 @@ public class Transport
 	/// Госномер
 	/// </summary>
 	public required string PlateIndex { get; set; }
-
+	public required string Brend { get; set; }
+	public required string Number { get; set; }
 	public required int MaxPalletes { get; set; }
 	public RefrigeratorType RefrigeratorType { get; set; }
-
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]

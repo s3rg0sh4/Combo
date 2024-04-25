@@ -9,6 +9,10 @@ public class ComboContext(DbContextOptions<ComboContext> options) : DbContext(op
 	public DbSet<Order> Orders { get; set; }
     public DbSet<Waybill> Waybill { get; set; }
 
+	public DbSet<Driver> Drivers { get; set; }
+	public DbSet<Truck> Trucks { get; set; }
+	public DbSet<Trailer> Trailers { get; set; }
+
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.Entity<Cargo>().UseTptMappingStrategy();

@@ -5,6 +5,7 @@ namespace Combo.Database.Models;
 public class RouteSheet
 {
 	public Guid Id { get; set; }
+	public required List<Waybill> Waybills { get; set; }
 
 	public required DateTimeOffset CreationDate { get; set; }
 	public required RouteSheetStatus Status { get; set; }
@@ -17,9 +18,10 @@ public class RouteSheet
 
 	public required DateTimeOffset ShipmentDate { get; set; }
 
-	public required List<Waybill> Waybills { get; set; }
+	public Driver? Driver { get; set; }
+	public Truck? Truck { get; set; }
+	public Trailer? Transport { get; set; }
 
-	public required Transport Transport { get; set; }
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
