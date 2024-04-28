@@ -55,5 +55,18 @@ public class TransportService(ComboContext _context)
 		await _context.UpdateImmidiately(trailer);
 	}
 
+	public async Task DeleteTrailer(Trailer trailer)
+	{
+		_context.Remove(trailer);
+		await _context.SaveChangesAsync();
+	}
+
+	public async Task DeleteTrailerRange(List<Guid> ids)
+	{
+		await _context.Trailers
+			.Where(t => ids.Contains(t.Id))
+			.ExecuteDeleteAsync();
+	}
+
 	#endregion
 }

@@ -27,4 +27,21 @@ public class TrailerController(TransportService _service) : ControllerBase
 		await _service.AddTrailer(trailer);
 		return Ok(await _service.GetTrailer(trailer.Id));
 	}
+
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> DeleteTrailer(Guid id)
+	{
+		var toDelete = await _service.GetTrailer(id);
+		if (toDelete is null)
+			return NotFound("Прицеп не найден");
+		await _service.DeleteTrailer(toDelete);
+		return Ok();
+	}
+
+	[HttpDelete]
+	public async Task<IActionResult> DeleteTrailerRange(List<Guid> ids)
+	{
+		await _service.DeleteTrailerRange(ids);
+		return Ok();
+	}
 }
