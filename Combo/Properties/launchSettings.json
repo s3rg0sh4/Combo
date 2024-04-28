@@ -2,7 +2,7 @@
   "profiles": {
     "http": {
       "commandName": "Project",
-      "launchUrl": "todos",
+      "launchUrl": "orders",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

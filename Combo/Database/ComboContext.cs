@@ -32,3 +32,13 @@ public class ComboContext(DbContextOptions<ComboContext> options) : DbContext(op
         await SaveChangesAsync();
 	}
 }
+
+public static class ServiceCollectionExtensions
+{
+	public static IServiceCollection AddComboContext(this IServiceCollection services, AppSettings appSettings)
+	{
+		services.AddDbContext<ComboContext>(db
+			=> db.UseNpgsql(appSettings.ConnectionStrings.Postgres));
+		return services;
+	}
+}

@@ -1,19 +1,17 @@
 using Combo;
+using Combo.Database;
+using Combo.Features;
+using Combo.Logging;
 
-using Microsoft.EntityFrameworkCore;
+var builder = WebApplication.CreateBuilder(args);
 
-var builder = WebApplication.CreateSlimBuilder(args);
+builder.BindAppSettings(out var appSettings);
 
-builder.Services.AddOptions<AppSettings>().BindConfiguration(AppSettings.SectionName);
-var applicationSettings = new AppSettings();
-builder.Configuration.GetSection(AppSettings.SectionName).Bind(applicationSettings);
+builder.ConfigureLogging(out var logger);
 
-builder.Services.AddDbContext<Combo.Database.ComboContext>(db 
-	=> db.UseNpgsql(applicationSettings.ConnectionStrings.Postgres));
+builder.Services.AddComboContext(appSettings);
 
-builder.Services.AddScoped<Combo.Features.Waybills.WaybillService>();
-builder.Services.AddScoped<Combo.Features.Orders.OrderService>();
-builder.Services.AddScoped<Combo.Features.Transport.TransportService>();
+builder.Services.AddFeatureServices();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -33,4 +31,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapControllers();
+
+logger.Information("Запуск сервера");
 app.Run();
