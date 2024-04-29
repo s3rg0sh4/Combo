@@ -29,11 +29,24 @@ public class TransportService(ComboContext _context)
 		// TODO: обработать
 		await _context.UpdateImmidiately(truck);
 	}
-	
+
+	public async Task DeleteTruck(Truck truck)
+	{
+		_context.Remove(truck);
+		await _context.SaveChangesAsync();
+	}
+
+	public async Task DeleteTruckRange(List<Guid> ids)
+	{
+		await _context.Trucks
+			.Where(t => ids.Contains(t.Id))
+			.ExecuteDeleteAsync();
+	}
+
 	#endregion
 
 	#region Trailers
-	
+
 	public async Task<List<Trailer>> GetTrailerList()
 	{
 		return await _context.Trailers.ToListAsync();

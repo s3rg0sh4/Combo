@@ -30,4 +30,21 @@ public class TruckController(TransportService _service) : ControllerBase
 			? BadRequest("Ошибка добавления грузовика") 
 			: Ok(newTruck);
 	}
+
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> DeleteTruck(Guid id)
+	{
+		var toDelete = await _service.GetTruck(id);
+		if (toDelete is null)
+			return NotFound("Грузовик не найден");
+		await _service.DeleteTruck(toDelete);
+		return Ok();
+	}
+
+	[HttpDelete]
+	public async Task<IActionResult> DeleteTruckRange(List<Guid> ids)
+	{
+		await _service.DeleteTruckRange(ids);
+		return Ok();
+	}
 }
