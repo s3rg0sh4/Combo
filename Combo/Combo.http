@@ -10,3 +10,5 @@ Accept: application/json
 
 ###
 
+POST {{Combo_HostAddress}}/Truck
+Accept: application/json

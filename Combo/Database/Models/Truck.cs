@@ -14,7 +14,7 @@ public class Truck
 	public required string Vin { get; set; }
 	public required string Model { get; set; }
 	public required string EditionYear { get; set; }
-	public required string MotorNamber { get; set; }
+	public required string MotorNumber { get; set; }
 	public required string BodyNumber { get; set; }
 	public required string ChassisNumber { get; set; }
 	public required string Color { get; set; }
