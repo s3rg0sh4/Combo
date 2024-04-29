@@ -11,7 +11,7 @@ public class Truck
 	/// Госномер
 	/// </summary>
 	public required string PlateIndex { get; set; }
-	public required string Vin { get; set; } = null!;
+	public required string Vin { get; set; }
 	public required string Model { get; set; }
 	public required string EditionYear { get; set; }
 	public required string MotorNamber { get; set; }
