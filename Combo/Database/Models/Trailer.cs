@@ -14,7 +14,6 @@ public class Trailer
 	/// </summary>
 	public required string PlateIndex { get; set; }
 	public required string Brend { get; set; }
-	public required string Number { get; set; }
 	public required int MaxPalletes { get; set; }
 	public RefrigeratorType RefrigeratorType { get; set; }
 }
