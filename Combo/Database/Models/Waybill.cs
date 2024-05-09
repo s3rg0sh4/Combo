@@ -1,8 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-
 namespace Combo.Database.Models;
 
 /// <summary>
@@ -53,29 +50,4 @@ public enum Temperature
 	Frozen,
 	Cold,
 	Both,
-}
-
-public static class DbSetExtensions
-{
-	public static IQueryable<Waybill> IncludeAll(this DbSet<Waybill> waybills)
-	{
-		return waybills
-			.Include(w => w.ActualCargo)
-			.Include(w => w.DeclaredCargo)
-			.Include(w => w.Destination)
-			.Include(w => w.Commentaries);
-	}
-
-	public static IQueryable<Order> IncludeWaybillsFull(this DbSet<Order> orders)
-	{
-		return orders
-			.Include(o => o.Waybills)
-				.ThenInclude(w => w.ActualCargo)
-			.Include(o => o.Waybills)
-				.ThenInclude(w => w.DeclaredCargo)
-			.Include(o => o.Waybills)
-				.ThenInclude(w => w.Destination)
-			.Include(o => o.Waybills)	
-				.ThenInclude(w => w.Commentaries);
-	}
 }

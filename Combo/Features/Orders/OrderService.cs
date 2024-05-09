@@ -11,7 +11,14 @@ public class OrderService(ComboContext _context)
 	public async Task<Order?> GetFullOrder(Guid id)
 	{
 		return await _context.Orders
-			.IncludeWaybillsFull()
+			.Include(o => o.Waybills)
+				.ThenInclude(w => w.ActualCargo)
+			.Include(o => o.Waybills)
+				.ThenInclude(w => w.DeclaredCargo)
+			.Include(o => o.Waybills)
+				.ThenInclude(w => w.Destination)
+			.Include(o => o.Waybills)
+				.ThenInclude(w => w.Commentaries)
 			.FirstOrDefaultAsync(o => o.Id == id);
 	}
 
@@ -49,7 +56,6 @@ public class OrderService(ComboContext _context)
 
 	public async Task UpdateOrder(Order order)
 	{
-		//PrepareWaybills(order.Waybills);
 		await _context.UpdateImmidiately(order);
 	}
 

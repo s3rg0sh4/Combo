@@ -8,9 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 public class RouteSheetService(ComboContext _context)
 {
+	public IAsyncEnumerable<RouteSheet> GetAllRouteSheets()
+	{
+		return _context.RouteSheets.AsAsyncEnumerable();
+	}
+
 	public async Task<RouteSheet?> GetRouteSheet(Guid id)
 	{
-		return await _context.RouteSheets.FindAsync(id);
+		return await _context.RouteSheets
+			.Include(r => r.Routes!)
+				.ThenInclude(r => r.Waybills)
+			.Include(r => r.Driver)
+			.Include(r => r.Truck)
+			.Include(r => r.Trailer)
+			.FirstOrDefaultAsync(r => r.Id == id);
 	}
 
 	public async Task<Guid> AddRouteSheet(RouteSheetCreateRequest request)

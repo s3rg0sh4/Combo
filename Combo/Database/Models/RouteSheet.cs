@@ -7,7 +7,6 @@ public class RouteSheet
 	public Guid Id { get; set; }
 
 	public List<Route>? Routes { get; set; }
-	public List<Waybill>? Waybills { get; set; }
 
 	public required Guid DriverId { get; set; }
 	public required Guid TruckId { get; set; }

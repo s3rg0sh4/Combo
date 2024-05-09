@@ -9,6 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]")]
 public class RouteSheetController(RouteSheetService _service) : ControllerBase
 {
+	[HttpGet]
+	public IActionResult GetAll()
+	{
+		return Ok(_service.GetAllRouteSheets());
+	}
+
 	[HttpGet("{id}")]
 	[NullIsNotFound("Маршрутный лист не найден")]
 	public async Task<IActionResult> Get(Guid id)
