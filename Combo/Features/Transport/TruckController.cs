@@ -1,6 +1,7 @@
 ﻿namespace Combo.Features.Transport;
 
 using Combo.Database.Models;
+using Combo.Middleware;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,22 +14,20 @@ public class TruckController(TransportService _service) : ControllerBase
 		=> Ok(await _service.GetTruckList());
 
 	[HttpGet("{id}")]
+	[NullIsNotFound("Грузовик не найден")]
 	public async Task<IActionResult> GetTruck(Guid id)
 	{
-		var truck = await _service.GetTruck(id);
-		return truck is null 
-			? NotFound("Грузовик не найден")
-			: Ok(truck);
+		var result = await _service.GetTruck(id);
+		return Ok(result);
 	}
 
 	[HttpPost]
+	[NullIsBadRequest("Ошибка добавления грузовика")]
 	public async Task<IActionResult> AddTruck(Truck truck)
 	{
 		await _service.AddTruck(truck);
-		var newTruck = await _service.GetTruck(truck.Id);
-		return newTruck is null 
-			? BadRequest("Ошибка добавления грузовика") 
-			: Ok(newTruck);
+		var result = await _service.GetTruck(truck.Id);
+		return Ok(result);
 	}
 
 	[HttpDelete("{id}")]
@@ -37,6 +36,7 @@ public class TruckController(TransportService _service) : ControllerBase
 		var toDelete = await _service.GetTruck(id);
 		if (toDelete is null)
 			return NotFound("Грузовик не найден");
+
 		await _service.DeleteTruck(toDelete);
 		return Ok();
 	}

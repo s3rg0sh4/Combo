@@ -17,7 +17,8 @@ public class TrailerController(TransportService _service) : ControllerBase
 	[NullIsNotFound("Прицеп не найден")]
 	public async Task<IActionResult> GetTrailer(Guid id)
 	{
-		return Ok(await _service.GetTrailer(id));
+		var result = await _service.GetTrailer(id);
+		return Ok(result);
 	}
 
 	[HttpPost]
@@ -25,7 +26,8 @@ public class TrailerController(TransportService _service) : ControllerBase
 	public async Task<IActionResult> AddTrailer(Trailer trailer)
 	{
 		await _service.AddTrailer(trailer);
-		return Ok(await _service.GetTrailer(trailer.Id));
+		var result = await _service.GetTrailer(trailer.Id);
+		return Ok(result);
 	}
 
 	[HttpDelete("{id}")]
@@ -34,6 +36,7 @@ public class TrailerController(TransportService _service) : ControllerBase
 		var toDelete = await _service.GetTrailer(id);
 		if (toDelete is null)
 			return NotFound("Прицеп не найден");
+
 		await _service.DeleteTrailer(toDelete);
 		return Ok();
 	}
