@@ -5,40 +5,40 @@ using Combo.Database.Models;
 
 using Microsoft.EntityFrameworkCore;
 
-public class TransportService(ComboContext Context)
+public class TransportService(ComboContext _context)
 {
 	#region Trucks
 	
 	public async Task<List<Truck>> GetTruckList()
 	{
-		return await Context.Trucks.ToListAsync();
+		return await _context.Trucks.ToListAsync();
 	}
 
 	public async Task<Truck?> GetTruck(Guid id)
 	{
-		return await Context.Trucks.FindAsync(id);
+		return await _context.Trucks.FindAsync(id);
 	}
 
 	public async Task AddTruck(Truck truck)
 	{
-		await Context.AddImmidiately(truck);
+		await _context.AddImmidiately(truck);
 	}
 
 	public async Task UpdateTruck(Truck truck)
 	{
 		// TODO: обработать
-		await Context.UpdateImmidiately(truck);
+		await _context.UpdateImmidiately(truck);
 	}
 
 	public async Task DeleteTruck(Truck truck)
 	{
-		Context.Remove(truck);
-		await Context.SaveChangesAsync();
+		_context.Remove(truck);
+		await _context.SaveChangesAsync();
 	}
 
 	public async Task DeleteTruckRange(List<Guid> ids)
 	{
-		await Context.Trucks
+		await _context.Trucks
 			.Where(t => ids.Contains(t.Id))
 			.ExecuteDeleteAsync();
 	}
@@ -49,34 +49,34 @@ public class TransportService(ComboContext Context)
 
 	public async Task<List<Trailer>> GetTrailerList()
 	{
-		return await Context.Trailers.ToListAsync();
+		return await _context.Trailers.ToListAsync();
 	}
 
 	public async Task<Trailer?> GetTrailer(Guid id)
 	{
-		return await Context.Trailers.FindAsync(id);
+		return await _context.Trailers.FindAsync(id);
 	}
 
 	public async Task AddTrailer(Trailer trailer)
 	{
-		await Context.AddImmidiately(trailer);
+		await _context.AddImmidiately(trailer);
 	}
 
 	public async Task UpdateTrailer(Trailer trailer)
 	{
 		// TODO: обработать
-		await Context.UpdateImmidiately(trailer);
+		await _context.UpdateImmidiately(trailer);
 	}
 
 	public async Task DeleteTrailer(Trailer trailer)
 	{
-		Context.Remove(trailer);
-		await Context.SaveChangesAsync();
+		_context.Remove(trailer);
+		await _context.SaveChangesAsync();
 	}
 
 	public async Task DeleteTrailerRange(List<Guid> ids)
 	{
-		await Context.Trailers
+		await _context.Trailers
 			.Where(t => ids.Contains(t.Id))
 			.ExecuteDeleteAsync();
 	}

@@ -7,12 +7,12 @@ namespace Combo.Features.Waybills;
 
 [ApiController]
 [Route("[controller]")]
-public class WaybillController(WaybillService WaybillService) : ControllerBase
+public class WaybillController(WaybillService _waybillService) : ControllerBase
 {
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var res = await WaybillService.GetWaybillList();
+		var res = await _waybillService.GetWaybillList();
 		return res is not null
 			? Ok(res)
 			: NotFound();
@@ -21,7 +21,7 @@ public class WaybillController(WaybillService WaybillService) : ControllerBase
 	[HttpGet("{id}")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var res = await WaybillService.GetWaybill(id);
+		var res = await _waybillService.GetWaybill(id);
 		return res is not null 
 			? Ok(res) 
 			: NotFound();
@@ -30,19 +30,19 @@ public class WaybillController(WaybillService WaybillService) : ControllerBase
 	[HttpPost]
 	public async Task<IActionResult> Post(Waybill waybill)
 	{
-		await WaybillService.AddWaybill(waybill);
+		await _waybillService.AddWaybill(waybill);
 		return Ok();
 	}
 
 	[HttpPatch("{id}")]
 	public async Task<IActionResult> Patch(Guid id, JsonPatchDocument<Waybill> patch)
 	{
-		var waybill = await WaybillService.GetWaybill(id);
+		var waybill = await _waybillService.GetWaybill(id);
 		if (waybill is null)
 			return NotFound();
 
 		patch.ApplyTo(waybill);
-		await WaybillService.UpdateWaybill(waybill);
+		await _waybillService.UpdateWaybill(waybill);
 
 		return Ok();
 	}

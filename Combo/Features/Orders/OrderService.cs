@@ -6,23 +6,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Combo.Features.Orders;
 
-public class OrderService(ComboContext Context)
+public class OrderService(ComboContext _context)
 {
 	public async Task<Order?> GetFullOrder(Guid id)
 	{
-		return await Context.Orders
+		return await _context.Orders
 			.IncludeWaybillsFull()
 			.FirstOrDefaultAsync(o => o.Id == id);
 	}
 
 	public async Task<Order?> GetOrder(Guid id)
 	{
-		return await Context.Orders.FindAsync(id);
+		return await _context.Orders.FindAsync(id);
 	}
 
 	public async Task<List<OrderDTO>> GetOrderList()
 	{
-		var orders = await Context.Orders
+		var orders = await _context.Orders
 			.Include(o => o.Waybills)
 				.ThenInclude(w => w.Destination)
 			.Select(o => new OrderDTO(o)
@@ -44,13 +44,13 @@ public class OrderService(ComboContext Context)
 		if (order.Waybills != null)
 			PrepareWaybills(order.Waybills);
 		
-		await Context.AddImmidiately(order);
+		await _context.AddImmidiately(order);
 	}
 
 	public async Task UpdateOrder(Order order)
 	{
 		//PrepareWaybills(order.Waybills);
-		await Context.UpdateImmidiately(order);
+		await _context.UpdateImmidiately(order);
 	}
 
 	private static void PrepareWaybills(List<Waybill> waybills)

@@ -6,11 +6,11 @@ using Combo.Features.RouteSheets.Contracts;
 
 using Microsoft.EntityFrameworkCore;
 
-public class RouteSheetService(ComboContext Context)
+public class RouteSheetService(ComboContext _context)
 {
 	public async Task<RouteSheet?> GetRouteSheet(Guid id)
 	{
-		return await Context.RouteSheets.FindAsync(id);
+		return await _context.RouteSheets.FindAsync(id);
 	}
 
 	public async Task<Guid> AddRouteSheet(RouteSheetCreateRequest request)
@@ -26,7 +26,7 @@ public class RouteSheetService(ComboContext Context)
 			DriverId = request.DriverId
 		};
 
-		await Context.AddImmidiately(routeSheet);
+		await _context.AddImmidiately(routeSheet);
 		return routeSheet.Id;
 	}
 
@@ -39,14 +39,14 @@ public class RouteSheetService(ComboContext Context)
 	/// <exception cref="WaybillHasRouteException"></exception>
 	public async Task AddRoute(Guid id, RouteCreateRequest request)
 	{
-		if (!await Context.RouteSheets.AnyAsync(r => r.Id == id))
+		if (!await _context.RouteSheets.AnyAsync(r => r.Id == id))
 			throw new RouteSheetNotFoundException();
 
-		var waybills = Context.Waybill.Where(w => request.WaybillIds.Contains(w.Id));
+		var waybills = _context.Waybill.Where(w => request.WaybillIds.Contains(w.Id));
 		if (await waybills.AnyAsync(w => w.RouteId.HasValue))
 			throw new WaybillHasRouteException();
 
-		await Context.AddImmidiately(new Route
+		await _context.AddImmidiately(new Route
 		{
 			RouteSheetId = id,
 			Waybills = await waybills.ToListAsync()
