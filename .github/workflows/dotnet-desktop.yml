@@ -78,4 +78,4 @@ jobs:
       run: dotnet build ${{ env.Solution_Name }} --configuration ${{ matrix.Configuration }} --no-restore
       
     - name: Run
-      run: dotnet run ${{ env.Solution_Name }} --configuration ${{ matrix.Configuration }} --no-build
+      run: dotnet run Combo/${{ env.Solution_Name }}.csproj --configuration ${{ matrix.Configuration }} --no-build
