@@ -70,26 +70,10 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-#    - name: Setup MSBuild.exe
-#      uses: microsoft/setup-msbuild@v2
-
-    # Execute all unit tests in the solution
-    #- name: Execute unit tests
-     # run: dotnet test
-
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: dotnet build Combo.sln
-      #run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
         
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: dotnet run Combo.sln
-      #run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
+    - name: Install dependencies 📂
+      run: dotnet restore Combo
+
+    - name: Build 🧱
+      run: dotnet build Combo --configuration Release --no-restore
  
