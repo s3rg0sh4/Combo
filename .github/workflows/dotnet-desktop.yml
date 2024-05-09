@@ -56,7 +56,7 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: Combo.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
+      Solution_Name: Combo                         # Replace with your solution name, i.e. MyWpfApp.sln.
       #Test_Project_Path: Combo.Tests.csproj                  # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
 
     steps:
@@ -75,5 +75,6 @@ jobs:
       run: dotnet restore Combo
 
     - name: Build 🧱
-      run: dotnet build Combo --configuration Release --no-restore
- 
+      run: dotnet build ${{ Solution_Name }} --configuration ${{ Configuration }} --no-restore
+      
+    - name: Run
