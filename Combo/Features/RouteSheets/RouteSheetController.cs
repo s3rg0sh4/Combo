@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
-public class RouteSheetController(RouteSheetService _service) : ControllerBase
+public class RouteSheetController(IRouteSheetService _service) : ControllerBase
 {
 	[HttpGet]
 	public IActionResult GetAll()

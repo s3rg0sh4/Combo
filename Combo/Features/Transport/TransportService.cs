@@ -5,13 +5,13 @@ using Combo.Database.Models;
 
 using Microsoft.EntityFrameworkCore;
 
-public class TransportService(ComboContext _context)
+public class TransportService(ComboContext _context) : ITransportService
 {
 	#region Trucks
-	
-	public async Task<List<Truck>> GetTruckList()
+
+	public IAsyncEnumerable<Truck> GetTruckList()
 	{
-		return await _context.Trucks.ToListAsync();
+		return _context.Trucks.AsAsyncEnumerable();
 	}
 
 	public async Task<Truck?> GetTruck(Guid id)
@@ -47,9 +47,9 @@ public class TransportService(ComboContext _context)
 
 	#region Trailers
 
-	public async Task<List<Trailer>> GetTrailerList()
+	public IAsyncEnumerable<Trailer> GetTrailerList()
 	{
-		return await _context.Trailers.ToListAsync();
+		return _context.Trailers.AsAsyncEnumerable();
 	}
 
 	public async Task<Trailer?> GetTrailer(Guid id)

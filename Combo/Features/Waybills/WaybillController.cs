@@ -7,15 +7,12 @@ namespace Combo.Features.Waybills;
 
 [ApiController]
 [Route("[controller]")]
-public class WaybillController(WaybillService _waybillService) : ControllerBase
+public class WaybillController(IWaybillService _waybillService) : ControllerBase
 {
 	[HttpGet]
-	public async Task<IActionResult> GetAll()
+	public IActionResult GetAll()
 	{
-		var res = await _waybillService.GetWaybillList();
-		return res is not null
-			? Ok(res)
-			: NotFound();
+		return Ok(_waybillService.GetWaybillList());
 	}
 
 	[HttpGet("{id}")]

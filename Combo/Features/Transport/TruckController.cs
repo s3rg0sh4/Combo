@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
-public class TruckController(TransportService _service) : ControllerBase
+public class TruckController(ITransportService _service) : ControllerBase
 {
 	[HttpGet]
-	public async Task<IActionResult> GetAllTrucks() 
-		=> Ok(await _service.GetTruckList());
+	public IActionResult GetAllTrucks() 
+		=> Ok(_service.GetTruckList());
 
 	[HttpGet("{id}")]
 	[NullIsNotFound("Грузовик не найден")]

@@ -7,12 +7,12 @@ namespace Combo.Features.Orders;
 
 [ApiController]
 [Route("[controller]")]
-public class OrderController(OrderService _service) : ControllerBase
+public class OrderController(IOrderService _service) : ControllerBase
 {
 	[HttpGet]
-	public async Task<IActionResult> GetOrderList()
+	public IActionResult GetOrderList()
 	{
-		return Ok(await _service.GetOrderList());
+		return Ok(_service.GetOrderList());
 	}
 
 	[HttpGet("{id}")]

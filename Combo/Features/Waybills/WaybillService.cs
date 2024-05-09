@@ -3,7 +3,7 @@ using Combo.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Combo.Features.Waybills;
-public class WaybillService(ComboContext _context)
+public class WaybillService(ComboContext _context) : IWaybillService
 {
 	public async Task<Waybill?> GetWaybill(Guid id)
 	{
@@ -15,8 +15,8 @@ public class WaybillService(ComboContext _context)
 			.FirstOrDefaultAsync(w => w.Id == id);
 	}
 
-	public async Task<List<Waybill>> GetWaybillList()
-		=> await _context.Waybill.ToListAsync();
+	public IAsyncEnumerable<Waybill> GetWaybillList()
+		=> _context.Waybill.AsAsyncEnumerable();
 
 	public async Task AddWaybill(Waybill waybill)
 	{

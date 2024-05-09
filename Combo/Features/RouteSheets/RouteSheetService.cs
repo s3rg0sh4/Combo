@@ -6,7 +6,7 @@ using Combo.Features.RouteSheets.Contracts;
 
 using Microsoft.EntityFrameworkCore;
 
-public class RouteSheetService(ComboContext _context)
+public class RouteSheetService(ComboContext _context) : IRouteSheetService
 {
 	public IAsyncEnumerable<RouteSheet> GetAllRouteSheets()
 	{

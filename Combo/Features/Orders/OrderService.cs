@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Combo.Features.Orders;
 
-public class OrderService(ComboContext _context)
+public class OrderService(ComboContext _context) : IOrderService
 {
 	public async Task<Order?> GetFullOrder(Guid id)
 	{
@@ -27,18 +27,18 @@ public class OrderService(ComboContext _context)
 		return await _context.Orders.FindAsync(id);
 	}
 
-	public async Task<List<OrderDTO>> GetOrderList()
+	public IAsyncEnumerable<OrderDTO> GetOrderList()
 	{
-		var orders = await _context.Orders
+		var orders = _context.Orders
 			.Include(o => o.Waybills)
 				.ThenInclude(w => w.Destination)
 			.Select(o => new OrderDTO(o)
 			{
-				 Waybills = o.Waybills
+				Waybills = o.Waybills
 					 .Select(w => new WaybillDTO(w))
 					 .ToList()
 			})
-			.ToListAsync();
+			.AsAsyncEnumerable();
 
 		return orders;
 	}
@@ -47,10 +47,10 @@ public class OrderService(ComboContext _context)
 	{
 		order.Id = Guid.Empty;
 		order.CreationDate = DateTimeOffset.UtcNow;
-		
+
 		if (order.Waybills != null)
 			PrepareWaybills(order.Waybills);
-		
+
 		await _context.AddImmidiately(order);
 	}
 
@@ -61,7 +61,8 @@ public class OrderService(ComboContext _context)
 
 	private static void PrepareWaybills(List<Waybill> waybills)
 	{
-		waybills.ForEach(w => {
+		waybills.ForEach(w =>
+		{
 			w.Id = Guid.Empty;
 			w.OrderId = Guid.Empty;
 			w.RouteId = null;
