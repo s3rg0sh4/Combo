@@ -75,7 +75,7 @@ jobs:
       run: dotnet restore ${{ env.Solution_Name }}
 
     - name: Build 🧱
-      run: dotnet build ${{ env.Solution_Name }} --configuration ${{ Configuration }} --no-restore
+      run: dotnet build ${{ env.Solution_Name }} --configuration ${{ env.Configuration }} --no-restore
       
     - name: Run
       run: dotnet run ${{ env.Solution_Name }} --configuration ${{ Configuration }} --no-build
