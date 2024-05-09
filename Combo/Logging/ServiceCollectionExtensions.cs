@@ -18,5 +18,3 @@ public static class ServiceCollectionExtensions
 		builder.Services.AddSerilog(logger);
 	}
 }
-
-//		builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
