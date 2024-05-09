@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
-public class RouteSheetController(RouteSheetService _service) : ControllerBase
+public class RouteSheetController(RouteSheetService Service) : ControllerBase
 {
 	[HttpGet("{id}")]
 	[NullIsNotFound("Маршрутный лист не найден")]
 	public async Task<IActionResult> Get(Guid id)
 	{
-		var result = await _service.GetRouteSheet(id);
+		var result = await Service.GetRouteSheet(id);
 		return Ok(result);
 	}
 
@@ -21,8 +21,8 @@ public class RouteSheetController(RouteSheetService _service) : ControllerBase
 	[NullIsBadRequest("Ошибка создания маршрутного листа")]
 	public async Task<IActionResult> Create(RouteSheetCreateRequest routeSheet)
 	{
-		var id = await _service.AddRouteSheet(routeSheet);
-		var created = await _service.GetRouteSheet(id);
+		var id = await Service.AddRouteSheet(routeSheet);
+		var created = await Service.GetRouteSheet(id);
 		return Ok(created);
 	}
 
@@ -31,7 +31,7 @@ public class RouteSheetController(RouteSheetService _service) : ControllerBase
 	{
 		try
 		{
-			await _service.AddRoute(id, request);
+			await Service.AddRoute(id, request);
 		}
 		catch (RouteSheetNotFoundException)
 		{

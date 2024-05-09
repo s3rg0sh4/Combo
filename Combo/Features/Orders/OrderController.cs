@@ -7,18 +7,18 @@ namespace Combo.Features.Orders;
 
 [ApiController]
 [Route("[controller]")]
-public class OrderController(OrderService _service) : ControllerBase
+public class OrderController(OrderService Service) : ControllerBase
 {
 	[HttpGet]
 	public async Task<IActionResult> GetOrderList()
 	{
-		return Ok(await _service.GetOrderList());
+		return Ok(await Service.GetOrderList());
 	}
 
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetOrder(Guid id)
 	{
-		var order = await _service.GetOrder(id);
+		var order = await Service.GetOrder(id);
 		if (order == null)
 			return NotFound();
 
@@ -28,12 +28,12 @@ public class OrderController(OrderService _service) : ControllerBase
 	[HttpPatch("{id}")]
 	public async Task<IActionResult> Patch(Guid id, JsonPatchDocument<Order> patch)
 	{
-		var order = await _service.GetOrder(id);
+		var order = await Service.GetOrder(id);
 		if (order is null)
 			return NotFound();
 
 		patch.ApplyTo(order);
-		await _service.UpdateOrder(order);
+		await Service.UpdateOrder(order);
 
 		return Ok();
 	}
@@ -41,7 +41,7 @@ public class OrderController(OrderService _service) : ControllerBase
 	[HttpPost]
 	public async Task<IActionResult> Post(Order order)
 	{
-		await _service.CreateOrder(order);
+		await Service.CreateOrder(order);
 		return Ok();
 	}
 }

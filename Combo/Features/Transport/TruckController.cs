@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
-public class TruckController(TransportService _service) : ControllerBase
+public class TruckController(TransportService Service) : ControllerBase
 {
 	[HttpGet]
 	public async Task<IActionResult> GetAllTrucks() 
-		=> Ok(await _service.GetTruckList());
+		=> Ok(await Service.GetTruckList());
 
 	[HttpGet("{id}")]
 	[NullIsNotFound("Грузовик не найден")]
 	public async Task<IActionResult> GetTruck(Guid id)
 	{
-		var result = await _service.GetTruck(id);
+		var result = await Service.GetTruck(id);
 		return Ok(result);
 	}
 
@@ -25,26 +25,26 @@ public class TruckController(TransportService _service) : ControllerBase
 	[NullIsBadRequest("Ошибка добавления грузовика")]
 	public async Task<IActionResult> AddTruck(Truck truck)
 	{
-		await _service.AddTruck(truck);
-		var result = await _service.GetTruck(truck.Id);
+		await Service.AddTruck(truck);
+		var result = await Service.GetTruck(truck.Id);
 		return Ok(result);
 	}
 
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> DeleteTruck(Guid id)
 	{
-		var toDelete = await _service.GetTruck(id);
+		var toDelete = await Service.GetTruck(id);
 		if (toDelete is null)
 			return NotFound("Грузовик не найден");
 
-		await _service.DeleteTruck(toDelete);
+		await Service.DeleteTruck(toDelete);
 		return Ok();
 	}
 
 	[HttpDelete]
 	public async Task<IActionResult> DeleteTruckRange(List<Guid> ids)
 	{
-		await _service.DeleteTruckRange(ids);
+		await Service.DeleteTruckRange(ids);
 		return Ok();
 	}
 }
