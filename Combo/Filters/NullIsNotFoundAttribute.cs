@@ -1,4 +1,4 @@
-﻿namespace Combo.Middleware;
+﻿namespace Combo.Filters;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -9,6 +9,9 @@ public class NullIsNotFoundAttribute(string message) : ActionFilterAttribute
 	public override void OnActionExecuted(ActionExecutedContext context)
 	{
 		if (context.Result is ObjectResult objectResult && objectResult.Value == null)
-			context.Result = new NotFoundObjectResult(message);
+		{
+			var id = context.HttpContext.Request.RouteValues["Id"];
+			context.Result = new NotFoundObjectResult(new { message, id });
+		}
 	}
 }

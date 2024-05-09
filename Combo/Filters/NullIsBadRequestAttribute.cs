@@ -1,4 +1,4 @@
-﻿namespace Combo.Middleware;
+﻿namespace Combo.Filters;
 
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;

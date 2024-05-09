@@ -12,6 +12,7 @@ public class ComboContext(DbContextOptions<ComboContext> options) : DbContext(op
 	public DbSet<Driver> Drivers { get; set; }
 	public DbSet<Truck> Trucks { get; set; }
 	public DbSet<Trailer> Trailers { get; set; }
+	public DbSet<RouteSheet> RouteSheets { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

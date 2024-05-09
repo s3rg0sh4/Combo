@@ -13,7 +13,7 @@ public class Waybill
 	public Guid Id { get; set; }
 
 	public required Guid OrderId { get; set; }
-	public Guid RouteSheetId { get; set; }
+	public Guid? RouteId { get; set; }
 
 	public required DateTimeOffset CreationDate { get; set; }
 

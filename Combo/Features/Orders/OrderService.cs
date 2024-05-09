@@ -58,7 +58,7 @@ public class OrderService(ComboContext _context)
 		waybills.ForEach(w => {
 			w.Id = Guid.Empty;
 			w.OrderId = Guid.Empty;
-			w.RouteSheetId = Guid.Empty;
+			w.RouteId = null;
 			w.CreationDate = DateTimeOffset.UtcNow;
 		});
 	}
