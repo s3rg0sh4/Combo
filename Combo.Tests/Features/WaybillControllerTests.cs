@@ -27,12 +27,6 @@ public class WaybillControllerTests
 	}
 
 	[Fact]
-	public void TEST()
-	{
-		Assert.True(false);
-	}
-
-	[Fact]
 	public void GetAll()
 	{
 		// Arrange
