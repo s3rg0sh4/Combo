@@ -16,10 +16,7 @@ builder.Services.AddFeatureServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddControllers(options =>
-{
-	options.InputFormatters.Insert(0, JsonPatchInputFormatter.GetFormatter());
-});
+builder.Services.AddControllers();
 
 builder.Services.AddCors();
 

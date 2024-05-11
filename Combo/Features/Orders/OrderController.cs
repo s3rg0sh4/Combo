@@ -25,19 +25,6 @@ public class OrderController(IOrderService _service) : ControllerBase
 		return Ok(order);
 	}
 
-	[HttpPatch("{id}")]
-	public async Task<IActionResult> Patch(Guid id, JsonPatchDocument<Order> patch)
-	{
-		var order = await _service.GetOrder(id);
-		if (order is null)
-			return NotFound();
-
-		patch.ApplyTo(order);
-		await _service.UpdateOrder(order);
-
-		return Ok();
-	}
-
 	[HttpPost]
 	public async Task<IActionResult> Post(Order order)
 	{

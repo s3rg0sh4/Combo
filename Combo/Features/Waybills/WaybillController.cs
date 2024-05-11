@@ -31,17 +31,4 @@ public class WaybillController(IWaybillService _waybillService) : ControllerBase
 		var id = await _waybillService.AddWaybill(waybill);
 		return Ok(await _waybillService.GetWaybill(id));
 	}
-
-	[HttpPatch("{id}")]
-	public async Task<IActionResult> Patch(Guid id, JsonPatchDocument<Waybill> patch)
-	{
-		var waybill = await _waybillService.GetWaybill(id);
-		if (waybill is null)
-			return NotFound();
-
-		patch.ApplyTo(waybill);
-		await _waybillService.UpdateWaybill(waybill);
-
-		return Ok();
-	}
 }
