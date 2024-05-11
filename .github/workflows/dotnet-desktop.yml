@@ -77,3 +77,5 @@ jobs:
     - name: Build 🧱
       run: dotnet build ${{ env.Solution_Name }} --configuration ${{ matrix.Configuration }} --no-restore
       
+    - name: Test 🧪
+      run: dotnet test ${{ env.Solution_Name }} --configuration ${{ matrix.Configuration }} --no-build
