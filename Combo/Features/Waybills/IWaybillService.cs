@@ -8,7 +8,7 @@ using Combo.Database.Models;
 
 public interface IWaybillService
 {
-	Task AddWaybill(Waybill waybill);
+	Task<Guid> AddWaybill(Waybill waybill);
 	Task<Waybill?> GetWaybill(Guid id);
 	IAsyncEnumerable<Waybill> GetWaybillList();
 	Task UpdateWaybill(Waybill waybill);

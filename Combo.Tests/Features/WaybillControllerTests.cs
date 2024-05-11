@@ -4,26 +4,20 @@ using Combo.Database.Models;
 using Combo.Features.Waybills;
 
 using Microsoft.AspNetCore.Mvc;
+
 using Moq;
 
 public class WaybillControllerTests
 {
-	private readonly WaybillController _controller;
+	private readonly Mock<IWaybillService> _service = new();
 	private readonly Guid _guid = Guid.NewGuid();
-
-	public WaybillControllerTests()
-	{
-		var mock = new Mock<IWaybillService>();
-		mock.Setup(repo => repo.GetWaybillList()).Returns(GetAllMoq);
-		mock.Setup(repo => repo.GetWaybill(_guid)).Returns(GetOneMoq);
-
-		_controller = new(mock.Object);
-	}
 
 	[Fact]
 	public async Task GetOne()
 	{
-		var result = await _controller.Get(_guid);
+		_service.Setup(repo => repo.GetWaybill(_guid)).Returns(async () => GetWaybill(_guid));
+		var controller = new WaybillController(_service.Object);
+		var result = await controller.Get(_guid);
 
 		var actionResult = Assert.IsType<OkObjectResult>(result);
 		var model = Assert.IsAssignableFrom<Waybill>(actionResult.Value);
@@ -33,33 +27,39 @@ public class WaybillControllerTests
 	}
 
 	[Fact]
-	public async Task GetOneNotFound()
-	{
-		var result = await _controller.Get(Guid.Empty);
-		Assert.IsType<NotFoundResult>(result);
-	}
-
-	[Fact]
 	public void GetAll()
 	{
+		// Arrange
+		_service.Setup(repo => repo.GetWaybillList()).Returns(GetAllMoq);
+		var controller = new WaybillController(_service.Object);
+
 		// Act
-		var result = _controller.GetAll();
+		var result = controller.GetAll();
 
 		// Assert
 		var actionResult = Assert.IsType<OkObjectResult>(result);
 		var model = Assert.IsAssignableFrom<IAsyncEnumerable<Waybill>>(actionResult.Value);
 
-		Assert.True(Compare(GetAllMoq(), model));
+		var mock = GetAllMoq().ToBlockingEnumerable();
+		var list = model.ToBlockingEnumerable();
+		Assert.True(mock.Count() == list.Count());
 	}
 
-	private static async Task<Waybill?> GetOneMoq(Guid id)
+	[Fact]
+	public async Task CreateOne()
 	{
-		await Task.CompletedTask;
+		var waybill = GetWaybill(_guid);
+		_service.Setup(repo => repo.AddWaybill(waybill)).Returns(async () => _guid);
+		_service.Setup(repo => repo.GetWaybill(_guid)).Returns(async () => waybill);
+		var controller = new WaybillController(_service.Object);
 
-		if (id == Guid.Empty) 
-			return null;
+		var result = await controller.Post(waybill);
 
-		return GetWaybill(id);
+		var actionResult = Assert.IsType<OkObjectResult>(result);
+		var model = Assert.IsAssignableFrom<Waybill>(actionResult.Value);
+
+		Assert.NotNull(model);
+		Assert.True(model.CreationDate != DateTimeOffset.MinValue);
 	}
 
 	private static Waybill GetWaybill(Guid id) => new()
@@ -81,12 +81,5 @@ public class WaybillControllerTests
 			yield return GetWaybill(Guid.NewGuid());
 
 		await Task.CompletedTask;
-	}
-
-	private static bool Compare(IAsyncEnumerable<Waybill> w1, IAsyncEnumerable<Waybill> w2)
-	{
-		var e1 = w1.ToBlockingEnumerable();
-		var e2 = w2.ToBlockingEnumerable();
-		return e1.Count() == e2.Count();
 	}
 }

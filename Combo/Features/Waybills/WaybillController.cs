@@ -1,4 +1,5 @@
 ﻿using Combo.Database.Models;
+using Combo.Filters;
 
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -16,19 +17,19 @@ public class WaybillController(IWaybillService _waybillService) : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[NullIsNotFound("Товарно-транспортная накладная не найдена")]
 	public async Task<IActionResult> Get(Guid id)
 	{
 		var res = await _waybillService.GetWaybill(id);
-		return res is not null 
-			? Ok(res) 
-			: NotFound();
+		return Ok(res);
 	}
 	
 	[HttpPost]
+	[NullIsBadRequest("Не удалось создать товарно-транспортную накладную")]
 	public async Task<IActionResult> Post(Waybill waybill)
 	{
-		await _waybillService.AddWaybill(waybill);
-		return Ok();
+		var id = await _waybillService.AddWaybill(waybill);
+		return Ok(await _waybillService.GetWaybill(id));
 	}
 
 	[HttpPatch("{id}")]

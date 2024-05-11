@@ -18,12 +18,13 @@ public class WaybillService(ComboContext _context) : IWaybillService
 	public IAsyncEnumerable<Waybill> GetWaybillList()
 		=> _context.Waybill.AsAsyncEnumerable();
 
-	public async Task AddWaybill(Waybill waybill)
+	public async Task<Guid> AddWaybill(Waybill waybill)
 	{
 		waybill.Id = Guid.Empty;
 		waybill.CreationDate = DateTime.UtcNow;
 
 		await _context.AddImmidiately(waybill);
+		return waybill.Id;
 	}
 
 	public async Task UpdateWaybill(Waybill waybill)
