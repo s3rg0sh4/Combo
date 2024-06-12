@@ -1,4 +1,4 @@
-﻿namespace Combo.Features.Transport;
+﻿namespace Combo.Features.Trailers;
 
 using Combo.Database.Models;
 using Combo.Filters;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
-public class TrailerController(ITransportService _service) : ControllerBase
+public class TrailerController(ITrailerService _service) : ControllerBase
 {
 	[HttpGet]
 	public IActionResult GetAllTrailers()
